@@ -10,22 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Localization-String-Tables-English (en)
+  m_Name: Localization-Asset-Tables-Korean (ko)
   m_EditorClassIdentifier: 
-  m_GroupName: Localization-String-Tables-English (en)
+  m_GroupName: Localization-Asset-Tables-Korean (ko)
   m_Data:
     m_SerializedData: []
-  m_GUID: 010914942030c284889256b59c719fe4
+  m_GUID: 2b5b6ddec2ee3e146868b9630ea0df34
   m_SerializeEntries:
-  - m_GUID: d6a43057901931843afd652b11f580b6
-    m_Address: String Table_en
+  - m_GUID: 09cba5f129991914c85843d07d736a1d
+    m_Address: Asset Table_ko
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale-en
+    - Locale-ko
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 67b829dcb90c943419a0be6ff4e3a81e
+    m_Address: FontAssetTable_ko
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ko
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 561b19c03c96db940acf6b70d3533808, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f7b5738ecfb100545b22a4b071061123, type: 2}
-    - {fileID: 11400000, guid: b1b88e11aac2df847a592285f8626ec5, type: 2}
+    - {fileID: 11400000, guid: 89e28e3e01c57fd4c88b966f2fec259a, type: 2}
+    - {fileID: 11400000, guid: dac92cfd531d36c4fae7886a71fc84f0, type: 2}

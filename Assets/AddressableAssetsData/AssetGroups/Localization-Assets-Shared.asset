@@ -17,10 +17,27 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 81e505dcb56e8c74baf3fe9c811d6884
   m_SerializeEntries:
-  - m_GUID: 0ff1ed848891fa4469f2878125afafad
-    m_Address: Assets/Localization/MainTable Shared Data.asset
+  - m_GUID: 9dee440fb2ab1734091aa82b1843d33d
+    m_Address: Assets/Localization/Asset Table Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81c98be6326074c489c55943f2dc95f7
+    m_Address: Assets/Localization/String Table Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c6d40c695659f744a42a33c7bf8b21b
+    m_Address: Assets/Localization/FontAssetTable Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b08bcf0b21851147b67b47a1f3be843
+    m_Address: NotoSansJP-VariableFont_wght SDF
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-ja
+    - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 561b19c03c96db940acf6b70d3533808, type: 2}

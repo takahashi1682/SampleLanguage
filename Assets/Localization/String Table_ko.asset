@@ -10,14 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: MainTable_ko
+  m_Name: String Table_ko
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: ko
-  m_SharedData: {fileID: 11400000, guid: 0ff1ed848891fa4469f2878125afafad, type: 2}
+  m_SharedData: {fileID: 11400000, guid: 81c98be6326074c489c55943f2dc95f7, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 333966778368
+    m_Localized: "\uD55C\uAD6D\uC5B4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5485956210688
+    m_Localized: 
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9434499162112
+    m_Localized: "\uD55C\uAD6D\uC5B4"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

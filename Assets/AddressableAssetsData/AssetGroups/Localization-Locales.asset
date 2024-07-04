@@ -17,8 +17,8 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 3e9fb1f67692dd049b735f07d7f79759
   m_SerializeEntries:
-  - m_GUID: fdf8019c3d85c8f4ea9f0492b2963f2d
-    m_Address: English (en)
+  - m_GUID: c67c6131db354a54e8dc8eab89d8df1f
+    m_Address: Korean (ko)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale
@@ -29,8 +29,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c67c6131db354a54e8dc8eab89d8df1f
-    m_Address: Korean (ko)
+  - m_GUID: fdf8019c3d85c8f4ea9f0492b2963f2d
+    m_Address: English (en)
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale

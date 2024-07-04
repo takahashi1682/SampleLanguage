@@ -10,15 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Localization-String-Tables-English (en)
+  m_Name: Localization-Asset-Tables-English (en)
   m_EditorClassIdentifier: 
-  m_GroupName: Localization-String-Tables-English (en)
+  m_GroupName: Localization-Asset-Tables-English (en)
   m_Data:
     m_SerializedData: []
-  m_GUID: 010914942030c284889256b59c719fe4
+  m_GUID: d877ec2ced0544545a23caaf2916590a
   m_SerializeEntries:
-  - m_GUID: d6a43057901931843afd652b11f580b6
-    m_Address: String Table_en
+  - m_GUID: 1881c915a082f8042b1d3f9cab73c74a
+    m_Address: Asset Table_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 654dbe7470ff9094685e8ea23ae7f361
+    m_Address: FontAssetTable_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
@@ -27,5 +33,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 561b19c03c96db940acf6b70d3533808, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f7b5738ecfb100545b22a4b071061123, type: 2}
-    - {fileID: 11400000, guid: b1b88e11aac2df847a592285f8626ec5, type: 2}
+    - {fileID: 11400000, guid: bc50e5905b341c3418c6d141942aa84a, type: 2}
+    - {fileID: 11400000, guid: cdaf8f339fac5c54b92a3959372de08b, type: 2}
