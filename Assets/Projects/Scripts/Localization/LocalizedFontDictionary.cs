@@ -5,7 +5,7 @@ using TMPro;
 namespace Projects.Localization
 {
     [Serializable]
-    public class LocalizedTextDictionary : SerializableDictionary<ELanguage, TMP_FontAsset, LocalizedTextPair>
+    public class LocalizedFontDictionary : SerializableDictionary<ELanguage, TMP_FontAsset, LocalizedTextPair>
     {
     }
 }

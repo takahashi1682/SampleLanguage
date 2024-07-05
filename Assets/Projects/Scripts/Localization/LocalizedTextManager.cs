@@ -4,47 +4,69 @@ using System.Linq;
 using R3;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace Projects.Localization
 {
     public class LocalizedTextManager : AbstractSingletonBehaviour<LocalizedTextManager>
     {
-        [SerializeField] private LocalizedTextDictionary _textDictionary;
-
-        private readonly ReactiveProperty<ELanguage> _currentLanguage = new(0);
+        [SerializeField] private TextAsset _languageTable;
+        [SerializeField] private SerializableReactiveProperty<ELanguage> _currentLanguage = new(0);
+        [SerializeField] private bool _isAutoLoad = true;
+        [SerializeField] private bool _isShowGUI = true;
+        [SerializeField] private LocalizedFontDictionary _textFontDictionary;
 
         private readonly Dictionary<string, string> _tags = new();
-
         private readonly Dictionary<string, string> _texts = new();
-        protected override bool IsDontDestroyOnLoad => true;
+
+        public ReadOnlyReactiveProperty<ELanguage> CurrentLanguage => _currentLanguage;
+        public TMP_FontAsset CurrentFont => _textFontDictionary.Dictionary.GetValueOrDefault(_currentLanguage.Value);
 
         private bool IsLoaded { get; set; }
-        public ReadOnlyReactiveProperty<ELanguage> CurrentLanguage => _currentLanguage;
+        protected override bool IsDontDestroyOnLoad => true;
 
         protected override void Awake()
         {
             base.Awake();
+            if (_isAutoLoad)
+            {
+                LoadText(_currentLanguage.Value);
+            }
+
             _currentLanguage.AddTo(this);
+            _currentLanguage.Subscribe(LoadText).AddTo(this);
         }
 
-        public void LoadText(ELanguage lang)
+#if UNITY_EDITOR
+        private void OnGUI()
         {
-            LoadText(lang, "LanguageTable.csv");
-        }
+            if (!_isShowGUI) return;
 
-        private void LoadText(ELanguage lang, string path)
+            var languages = Enum.GetValues(typeof(ELanguage));
+            GUILayout.Box("Change Language", GUILayout.Width(170), GUILayout.Height(25 * (languages.Length + 2)));
+            var screenRect = new Rect(10, 25, 150, 25 * (languages.Length + 1));
+
+            GUILayout.BeginArea(screenRect);
+            foreach (ELanguage language in languages)
+            {
+                if (GUILayout.RepeatButton(language.ToString()))
+                {
+                    Instance.LoadText(language);
+                }
+            }
+
+            GUILayout.EndArea();
+        }
+#endif
+
+        private void LoadText(ELanguage lang)
         {
             if (IsLoaded)
             {
-                _texts.Clear();
                 _tags.Clear();
+                _texts.Clear();
             }
 
-            var allText = Addressables.LoadAssetAsync<TextAsset>(path).WaitForCompletion();
-            var allLines = allText.text.Split('\n').ToList();
-            Addressables.Release(allText);
-
+            var allLines = _languageTable.text.Split('\n').ToList();
             allLines.RemoveAt(0);
 
             var langNum = (int)lang + 1;
@@ -61,18 +83,13 @@ namespace Projects.Localization
 
         public string GetText(string id)
         {
-            return _texts[id];
-        }
-
-        private bool CheckTextIsValid(string id)
-        {
-            if (!_texts.ContainsKey(id))
+            if (!_texts.TryGetValue(id, out var result))
             {
                 Debug.Log($"[TextSystem] message id {id} is not found. ");
-                return false;
+                return string.Empty;
             }
 
-            return true;
+            return result;
         }
 
         public string GetReplaced(string id, string buf)
@@ -102,6 +119,6 @@ namespace Projects.Localization
         public void SetTag(string textTag, string text) => _tags[textTag] = text;
 
         public void SetFont(ELanguage language, TMP_FontAsset font) =>
-            _textDictionary.Dictionary.TryAdd(language, font);
+            _textFontDictionary.Dictionary.TryAdd(language, font);
     }
 }

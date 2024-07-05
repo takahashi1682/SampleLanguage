@@ -16,19 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 2b5b6ddec2ee3e146868b9630ea0df34
-  m_SerializeEntries:
-  - m_GUID: 09cba5f129991914c85843d07d736a1d
-    m_Address: Asset Table_ko
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ko
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 67b829dcb90c943419a0be6ff4e3a81e
-    m_Address: FontAssetTable_ko
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ko
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 561b19c03c96db940acf6b70d3533808, type: 2}
   m_SchemaSet:

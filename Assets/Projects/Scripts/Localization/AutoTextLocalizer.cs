@@ -14,19 +14,10 @@ namespace Projects.Localization
         private TextMeshProUGUI _targetText;
         private LocalizedTextManager _textSystem;
 
-        private void Awake()
-        {
-            _targetText = GetComponent<TextMeshProUGUI>();
-        }
-
         private void Start()
         {
             _textSystem = LocalizedTextManager.Instance;
-
-            // if (_textSystem._fontAsset != null)
-            // {
-            //     _targetText.font = _textSystem._fontAsset;
-            // }
+            _targetText = GetComponent<TextMeshProUGUI>();
 
             _textSystem.CurrentLanguage
                 .Where(_ => !string.IsNullOrEmpty(_textId))
@@ -36,11 +27,9 @@ namespace Projects.Localization
         public void UpdateDisplay()
         {
             _targetText.SetText(_textSystem.GetText(_textId));
+            _targetText.font = _textSystem.CurrentFont;
         }
 
-        public void SetTextId(string textId)
-        {
-            _textId = textId;
-        }
+        public void SetTextId(string textId) => _textId = textId;
     }
 }

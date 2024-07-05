@@ -1,3 +1,3 @@
-ID,EN,JP
-0000,NEW GAME,はじめから
-0001,CONTINUE,つづきから
+ID,EN,JP,KR
+1000,NEW GAME,はじめから,처음부터
+1001,CONTINUE,つづきから,계속해서

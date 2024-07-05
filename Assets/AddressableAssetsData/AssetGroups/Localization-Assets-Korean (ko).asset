@@ -16,13 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 96a157a70465633458264704ec121547
-  m_SerializeEntries:
-  - m_GUID: b52db69c8684604459cfbfdc2a370407
-    m_Address: NotoSansKR-VariableFont_wght SDF
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-ko
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 561b19c03c96db940acf6b70d3533808, type: 2}
   m_SchemaSet:
