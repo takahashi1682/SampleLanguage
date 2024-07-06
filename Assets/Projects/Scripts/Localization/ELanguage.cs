@@ -5,8 +5,8 @@ namespace Projects.Localization
     /// </summary>
     public enum ELanguage
     {
-        En,
         Jp,
+        En,
         Kr,
     }
 }

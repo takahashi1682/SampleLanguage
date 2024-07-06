@@ -164,19 +164,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39a2c0bcb2af7ce4f827b9189d48185d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _languageTable: {fileID: 4900000, guid: bb074df621e826845b61cbe600507c49, type: 3}
+  _prefKey: Language
+  _stringTablePath: StringTable
   _currentLanguage:
-    value: 2
+    value: 0
   _isAutoLoad: 1
-  _textFontDictionary:
-    _list:
-    - _key: 0
-      _value: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - _key: 1
-      _value: {fileID: 11400000, guid: efca176e2c33c8346a5bbabbcaaf26a0, type: 2}
-    - _key: 2
-      _value: {fileID: 11400000, guid: 1509a9ccfff86b3419a54670009cd6c0, type: 2}
   _isShowGUI: 1
+  _fontDictionary:
+  - _language: 0
+    _font: {fileID: 11400000, guid: efca176e2c33c8346a5bbabbcaaf26a0, type: 2}
+  - _language: 1
+    _font: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - _language: 2
+    _font: {fileID: 11400000, guid: 1509a9ccfff86b3419a54670009cd6c0, type: 2}
 --- !u!1 &497503858
 GameObject:
   m_ObjectHideFlags: 0

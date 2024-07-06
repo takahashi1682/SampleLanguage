@@ -7,19 +7,33 @@ using UnityEngine;
 
 namespace Projects.Localization
 {
+    [Serializable]
+    public struct LanguageFontPair
+    {
+        [SerializeField] private ELanguage _language;
+        [SerializeField] private TMP_FontAsset _font;
+
+        public ELanguage Language => _language;
+        public TMP_FontAsset Font => _font;
+    }
+
+    /// <summary>
+    ///  ローカライズテキストマネージャ
+    /// </summary>
     public class LocalizedTextManager : AbstractSingletonBehaviour<LocalizedTextManager>
     {
-        [SerializeField] private TextAsset _languageTable;
+        [SerializeField] private string _prefKey = "KeyLanguage";
+        [SerializeField] private string _stringTablePath = "StringTable";
         [SerializeField] private SerializableReactiveProperty<ELanguage> _currentLanguage = new(0);
         [SerializeField] private bool _isAutoLoad = true;
         [SerializeField] private bool _isShowGUI = true;
-        [SerializeField] private LocalizedFontDictionary _textFontDictionary;
+        [SerializeField] private LanguageFontPair[] _fontDictionary;
 
-        private readonly Dictionary<string, string> _tags = new();
-        private readonly Dictionary<string, string> _texts = new();
+        private readonly Dictionary<string, string> _stringTable = new();
 
         public ReadOnlyReactiveProperty<ELanguage> CurrentLanguage => _currentLanguage;
-        public TMP_FontAsset CurrentFont => _textFontDictionary.Dictionary.GetValueOrDefault(_currentLanguage.Value);
+        public TMP_FontAsset CurrentFont =>
+            _fontDictionary.FirstOrDefault(x => x.Language == _currentLanguage.Value).Font;
 
         private bool IsLoaded { get; set; }
         protected override bool IsDontDestroyOnLoad => true;
@@ -27,13 +41,106 @@ namespace Projects.Localization
         protected override void Awake()
         {
             base.Awake();
-            if (_isAutoLoad)
+
+            // 設定値読み込み
+            _currentLanguage.Value = LoadLanguage();
+
+            // テーブル自動読み込み
+            if (_isAutoLoad) LoadStringTable(_currentLanguage.Value);
+
+            // 言語変更時の処理
+            _currentLanguage.AddTo(this);
+            _currentLanguage.Skip(1).Subscribe(x =>
             {
-                LoadText(_currentLanguage.Value);
+                // テーブル読み込み
+                LoadStringTable(x);
+
+                // 言語変更時に保存
+                SaveLanguage(x);
+            }).AddTo(this);
+        }
+
+        /// <summary>
+        ///  言語設定
+        /// </summary>
+        /// <param name="language"></param>
+        public void SetLanguage(ELanguage language) => _currentLanguage.Value = language;
+
+        /// <summary>
+        ///  テーブル読み込み
+        /// </summary>
+        /// <param name="lang"></param>
+        private void LoadStringTable(ELanguage lang)
+        {
+            if (IsLoaded) _stringTable.Clear();
+
+            var text = LoadResources(_stringTablePath);
+            var allLines = text.Split('\n').ToList();
+            allLines.RemoveAt(0);
+
+            var langNum = (int)lang + 1;
+            foreach (var elements in allLines.Select(line => line.Replace("%%", "\n").Split(',').ToList())
+                         .Where(elements => elements[0] != string.Empty))
+            {
+                _stringTable.Add(elements[0], elements[langNum].Replace("*", ","));
             }
 
-            _currentLanguage.AddTo(this);
-            _currentLanguage.Subscribe(LoadText).AddTo(this);
+            IsLoaded = true;
+        }
+
+        /// <summary>
+        ///  テキスト取得
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetText(string key)
+        {
+            if (!_stringTable.TryGetValue(key, out var result))
+            {
+                Debug.Log($"[TextSystem] message id {key} is not found. ");
+                return string.Empty;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///  リソース読み込み
+        /// </summary>
+        /// <returns></returns>
+        private string LoadResources(string path)
+        {
+            var result = string.Empty;
+
+            var stringTable = Resources.Load<TextAsset>(path);
+            if (stringTable != null)
+            {
+                result = stringTable.text;
+            }
+            else
+            {
+                Debug.LogError($"[LoadResources] Unable to load resource at path: {_stringTablePath}");
+            }
+
+            Resources.UnloadAsset(stringTable);
+
+            return result;
+        }
+
+        /// <summary>
+        ///  言語設定を読み込み
+        /// </summary>
+        /// <returns></returns>
+        public ELanguage LoadLanguage() => (ELanguage)PlayerPrefs.GetInt(_prefKey, 0);
+
+        /// <summary>
+        ///  言語設定を保存
+        /// </summary>
+        /// <param name="language"></param>
+        public void SaveLanguage(ELanguage language)
+        {
+            PlayerPrefs.SetInt(_prefKey, (int)language);
+            PlayerPrefs.Save();
         }
 
 #if UNITY_EDITOR
@@ -50,75 +157,12 @@ namespace Projects.Localization
             {
                 if (GUILayout.RepeatButton(language.ToString()))
                 {
-                    Instance.LoadText(language);
+                    Instance.SetLanguage(language);
                 }
             }
 
             GUILayout.EndArea();
         }
 #endif
-
-        private void LoadText(ELanguage lang)
-        {
-            if (IsLoaded)
-            {
-                _tags.Clear();
-                _texts.Clear();
-            }
-
-            var allLines = _languageTable.text.Split('\n').ToList();
-            allLines.RemoveAt(0);
-
-            var langNum = (int)lang + 1;
-            foreach (var elements in allLines.Select(line => line.Replace("%%", "\n").Split(',').ToList())
-                         .Where(elements => elements[0] != string.Empty))
-            {
-                _texts.Add(elements[0], elements[langNum].Replace("*", ","));
-            }
-
-            _currentLanguage.Value = lang;
-
-            IsLoaded = true;
-        }
-
-        public string GetText(string id)
-        {
-            if (!_texts.TryGetValue(id, out var result))
-            {
-                Debug.Log($"[TextSystem] message id {id} is not found. ");
-                return string.Empty;
-            }
-
-            return result;
-        }
-
-        public string GetReplaced(string id, string buf)
-        {
-            return _texts[id].Replace("###", buf);
-        }
-
-        public string GetReplaced(string id, string buf, string buf2)
-        {
-            return _texts[id].Replace("#1#", buf).Replace("#2#", buf2);
-        }
-
-        public string GetTagged(string id)
-        {
-            var result = _texts[id];
-            if (result.Contains('#'))
-            {
-                foreach (var t in _tags.Where(t => result.Contains(t.Key)))
-                {
-                    result = result.Replace($"#{t.Key}#", t.Value);
-                }
-            }
-
-            return result;
-        }
-
-        public void SetTag(string textTag, string text) => _tags[textTag] = text;
-
-        public void SetFont(ELanguage language, TMP_FontAsset font) =>
-            _textFontDictionary.Dictionary.TryAdd(language, font);
     }
 }
