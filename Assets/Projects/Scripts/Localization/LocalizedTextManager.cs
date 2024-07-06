@@ -4,6 +4,7 @@ using System.Linq;
 using R3;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Projects.Localization
 {
@@ -23,7 +24,7 @@ namespace Projects.Localization
     public class LocalizedTextManager : AbstractSingletonBehaviour<LocalizedTextManager>
     {
         [SerializeField] private string _prefKey = "KeyLanguage";
-        [SerializeField] private string _stringTablePath = "StringTable";
+        [SerializeField] private string _localizationTableKey = "StringTable";
         [SerializeField] private SerializableReactiveProperty<ELanguage> _currentLanguage = new(0);
         [SerializeField] private bool _isAutoLoad = true;
         [SerializeField] private bool _isShowGUI = true;
@@ -74,7 +75,7 @@ namespace Projects.Localization
         {
             if (IsLoaded) _stringTable.Clear();
 
-            var text = LoadResources(_stringTablePath);
+            var text = LoadResources(_localizationTableKey);
             var allLines = text.Split('\n').ToList();
             allLines.RemoveAt(0);
 
@@ -112,17 +113,17 @@ namespace Projects.Localization
         {
             var result = string.Empty;
 
-            var stringTable = Resources.Load<TextAsset>(path);
+            var stringTable = Addressables.LoadAssetAsync<TextAsset>(path).WaitForCompletion();
             if (stringTable != null)
             {
                 result = stringTable.text;
             }
             else
             {
-                Debug.LogError($"[LoadResources] Unable to load resource at path: {_stringTablePath}");
+                Debug.LogError($"[LoadResources] Unable to load resource at path: {_localizationTableKey}");
             }
 
-            Resources.UnloadAsset(stringTable);
+            Addressables.Release(stringTable);
 
             return result;
         }
